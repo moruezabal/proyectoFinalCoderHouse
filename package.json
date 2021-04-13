@@ -1,8 +1,10 @@
 {
-  "name": "trabajoFinal",
+  "name": "trabajofinal",
   "version": "1.0.0",
   "description": "Proyecto final del curso de backend de CoderHouse",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "module",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,5 +21,8 @@
   "homepage": "https://github.com/moruezabal/proyectoFinalCoderHouse#readme",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
