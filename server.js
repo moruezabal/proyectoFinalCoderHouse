@@ -5,6 +5,7 @@ const app = express();
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'));
 
 const routerProducto = express.Router();
 const routerCarrito = express.Router();
@@ -12,9 +13,11 @@ const routerCarrito = express.Router();
 app.use('/productos', routerProducto);
 app.use('/carrito', routerCarrito);
 
+let repositorio = new Inventario();
 
 
-routerProducto.get('/', (req, res) => {
+
+routerProducto.get('/listar:id?', (req, res) => {
     res.send('Hello Producto!')
 })
 
