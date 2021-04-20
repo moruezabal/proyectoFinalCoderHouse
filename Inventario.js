@@ -21,6 +21,7 @@ class Inventario {
     addProducto = function(producto){
         Inventario.id++;
         producto.id = Inventario.id;
+        producto.timestamp = Date.now();
         this.productos.push(producto);
         return producto;
     }
@@ -29,8 +30,12 @@ class Inventario {
         let producto = this.getProducto(id);
         
         producto.title = productoNuevo.title;
+        producto.description = productoNuevo.description;
+        producto.timestamp  = Date.now();
+        producto.code = productoNuevo.code;
         producto.price = productoNuevo.price;
         producto.thumbnail = productoNuevo.thumbnail;
+        producto.stock = productoNuevo.stock;
         
         return producto;
         
