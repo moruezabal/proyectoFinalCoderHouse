@@ -1,10 +1,17 @@
 import Inventario from './Inventario.js'
 import express from 'express';
+import Carrito from './Carrito.js';
+import handlebars from 'express-handlebars'
+
 const app = express();
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'));
+
+app.engine('hbs', handlebars({extname:'.hbs', defaultLayout: 'index.hbs'}) )
+app.set('views', './public/views')
+app.set('view engine', 'hbs')
 
 const routerProducto = express.Router();
 const routerCarrito = express.Router();
@@ -13,8 +20,7 @@ app.use('/productos', routerProducto);
 app.use('/carrito', routerCarrito);
 
 let repositorio = new Inventario();
-
-
+let carrito = new Carrito();
 
 routerProducto.get('/listar/:id?', (req, res) => {
     let productos = req.params.id ? repositorio.getProducto(req.params.id) : repositorio.getProductos();
@@ -56,11 +62,33 @@ routerProducto.delete('/borrar/:id', (req,res) => {
     } 
 });
 
+routerCarrito.get('/listar/:id?', (req, res) => {
+    let compras = req.params.id ? carrito.getCompra(req.params.id) : carrito.getCompras();
+    let error = {error : 'El carrito está vacío'};
+    if (compras){
+        compras.length != 0 ? res.status(200).json(compras) : res.status(200).json(error)
+    }
+    else {
+        res.status(200).json({error: 'esa compra no existe'});
+    }
+});
 
+routerCarrito.post('/agregar', (req, res) => {
+    let compraModificada = carrito.addCompra(req.body);
+    res.status(200).json(compraModificada);
+});
 
-routerCarrito.get('/', (req, res) => {
-    res.send('Hello Carrito!')
-})
+routerCarrito.delete('/borrar/:id', (req,res) => {
+    let id = req.params.id;
+    let compraSolicitado = repositorio.getCompra(id);
+    if (compraSolicitado) {
+        let compraBorrado = repositorio.deleteCompra(id,req.body);
+        res.status(200).json(compraBorrado);
+    } 
+    else{
+        res.status(200).json({error: "no se encontró la compra a borrar"});
+    } 
+});
 
 const PORT = (process.env.PORT || 8080)
   
