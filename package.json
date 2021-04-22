@@ -4,7 +4,6 @@
   "description": "Proyecto final del curso de backend de CoderHouse",
   "main": "server.js",
   "type": "module",
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,7 +19,8 @@
   },
   "homepage": "https://github.com/moruezabal/proyectoFinalCoderHouse#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

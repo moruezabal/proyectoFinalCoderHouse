@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'));
 
 app.engine('hbs', handlebars({extname:'.hbs', defaultLayout: 'index.hbs'}) )
-app.set('views', './public/views')
+app.set('views', './views')
 app.set('view engine', 'hbs')
 
 const routerProducto = express.Router();
@@ -21,6 +21,13 @@ app.use('/carrito', routerCarrito);
 
 let repositorio = new Inventario();
 let carrito = new Carrito();
+
+app.get('/', (req,res) => {
+    let productos = repositorio.getProductos();
+    //let date = new Date(productos.timestamp).toLocaleString();
+    let compras = carrito.getCompras();
+    res.render('formulario', {compras, productos});
+});
 
 routerProducto.get('/listar/:id?', (req, res) => {
     let productos = req.params.id ? repositorio.getProducto(req.params.id) : repositorio.getProductos();
